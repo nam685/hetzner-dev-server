@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# new-claude — Open a new Zellij tab with 3 panes: claude | shell / logs
+# Usage: new-claude [/path/to/worktree]
+
+set -euo pipefail
+
+DIR="${1:-.}"
+DIR="$(cd "$DIR" 2>/dev/null && pwd)" || { echo "Directory not found: $1"; exit 1; }
+NAME="$(basename "$DIR")"
+
+if [ -z "${ZELLIJ:-}" ]; then
+    echo "Not in a Zellij session. Run 'zellij' first."
+    exit 1
+fi
+
+LAYOUT_FILE="${TMPDIR:-/tmp}/new-claude-layout.kdl"
+cat > "$LAYOUT_FILE" <<'KDL'
+pane split_direction="vertical" {
+    pane name="claude" size="60%" focus=true command="claude"
+    pane split_direction="horizontal" {
+        pane name="shell"
+        pane name="logs"
+    }
+}
+KDL
+
+zellij action new-tab --layout "$LAYOUT_FILE" --name "$NAME" --cwd "$DIR"
+rm -f "$LAYOUT_FILE"
+echo "New tab '$NAME' → $DIR"

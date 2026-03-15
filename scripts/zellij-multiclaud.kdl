@@ -1,0 +1,35 @@
+// Zellij layout for multiclauding
+// Usage: zellij --layout path/to/zellij-multiclaud.kdl
+//
+// Each tab: Claude CLI (left 60%) | shell (top-right) | logs (bottom-right)
+// Duplicate tabs as needed for parallel Claude sessions.
+
+layout {
+    tab name="task-1" focus=true {
+        pane split_direction="vertical" {
+            pane name="claude" size="60%"
+            pane split_direction="horizontal" {
+                pane name="shell"
+                pane name="logs"
+            }
+        }
+    }
+    tab name="task-2" {
+        pane split_direction="vertical" {
+            pane name="claude" size="60%"
+            pane split_direction="horizontal" {
+                pane name="shell"
+                pane name="logs"
+            }
+        }
+    }
+    tab name="task-3" {
+        pane split_direction="vertical" {
+            pane name="claude" size="60%"
+            pane split_direction="horizontal" {
+                pane name="shell"
+                pane name="logs"
+            }
+        }
+    }
+}

@@ -116,6 +116,42 @@ fi
 
 This auto-attaches to your session on SSH login.
 
+## Multiclauding Layout
+
+Run multiple Claude instances in parallel — each tab has 3 panes:
+
+```
+Tab "task-1"                Tab "task-2"                Tab "task-3"
+┌──────────┬─────────┐  ┌──────────┬─────────┐  ┌──────────┬─────────┐
+│ claude   │  shell  │  │ claude   │  shell  │  │ claude   │  shell  │
+│          │         │  │          │         │  │          │         │
+│          ├─────────┤  │          ├─────────┤  │          ├─────────┤
+│          │  logs   │  │          │  logs   │  │          │  logs   │
+└──────────┴─────────┘  └──────────┴─────────┘  └──────────┴─────────┘
+```
+
+### Start with layout
+
+```bash
+# From the repo
+zellij --layout scripts/zellij-multiclaud.kdl
+
+# Or copy to your Zellij layouts dir
+cp scripts/zellij-multiclaud.kdl ~/.config/zellij/layouts/
+zellij --layout multiclaud
+```
+
+Then in each tab's left pane, run `claude` (or `c`). Use the right panes for shell commands and log tailing (`ell up`, `nam up`, etc.).
+
+### Quick manual setup (no layout file)
+
+```bash
+zellij -s coding
+# Ctrl-p → r (split right) → Ctrl-p → arrow to right pane
+# Ctrl-p → d (split down) → done
+# Ctrl-t → n (new tab) → repeat
+```
+
 ## Config (optional)
 
 Config file: `~/.config/zellij/config.kdl`

@@ -6,7 +6,7 @@ Run periodically (or use `scripts/upgrade.sh`):
 
 ```bash
 sudo apt update && sudo apt upgrade -y
-npm update -g @anthropic-ai/claude-code
+claude update
 ```
 
 ## Backups
@@ -106,6 +106,4 @@ claude auth
 du -sh /* | sort -rh | head -20
 # Clean apt cache
 sudo apt clean
-# Clean npm cache
-npm cache clean --force
 ```

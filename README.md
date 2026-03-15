@@ -7,8 +7,19 @@ Remote development server on Hetzner Cloud running Claude Code CLI — code from
 - **Server**: Hetzner Cloud CX32 (4 vCPU, 8GB RAM, 80GB disk) — ~EUR 7/month
 - **AI**: Claude Code CLI with Claude Max subscription ($200/month)
 - **OS**: Ubuntu 24.04 LTS
-- **Access**: SSH from iTerm2 / VS Code Remote SSH / Phone (Mosh)
+- **Access**: SSH from any laptop (Mac/Windows WSL2) / VS Code Remote / Android phone (Termux + Mosh)
 - **Session persistence**: Zellij (modern tmux alternative with sane keybindings)
+
+## Connecting from Any Device
+
+| Device | How |
+|--------|-----|
+| Mac laptop (work) | iTerm2 → `ssh dev` or `new-claude ~/project` (local) |
+| Windows laptop (personal) | WSL2 → `ssh dev` or `mosh dev` |
+| Android phone (S23) | Termux → `mosh dev -- zellij a coding` (single pane + voice) |
+| VS Code (any laptop) | Remote SSH extension → connect to `dev` |
+
+All connections land in the same Zellij session on the server. Pick up where you left off from any device.
 
 ## Quick Start
 
@@ -39,7 +50,7 @@ claude
 | [docs/04-zellij.md](docs/04-zellij.md) | Zellij setup + cheatsheet |
 | [docs/05-vscode-remote.md](docs/05-vscode-remote.md) | VS Code Remote SSH setup |
 | [docs/06-maintenance.md](docs/06-maintenance.md) | Backups, upgrades, cost management |
-| [docs/07-mobile-access.md](docs/07-mobile-access.md) | Coding from phone/tablet (SSH apps, Mosh) |
+| [docs/07-mobile-access.md](docs/07-mobile-access.md) | Coding from Android phone (Termux, Mosh, voice input) |
 
 ## Scripts
 
@@ -47,3 +58,5 @@ claude
 |------|-------------|
 | [scripts/setup.sh](scripts/setup.sh) | Full server setup (run once after provisioning) |
 | [scripts/upgrade.sh](scripts/upgrade.sh) | Update system packages + Claude Code |
+| [scripts/new-claude](scripts/new-claude) | Open a new Zellij tab with 3-pane Claude workspace |
+| [scripts/zellij-multiclaud.kdl](scripts/zellij-multiclaud.kdl) | Zellij layout for multiclauding (3 tabs × 3 panes) |

@@ -8,7 +8,7 @@ echo "[1/3] System packages..."
 sudo apt update && sudo apt upgrade -y
 
 echo "[2/3] Claude Code CLI..."
-npm update -g @anthropic-ai/claude-code
+claude update
 claude --version
 
 echo "[3/3] Zellij..."
