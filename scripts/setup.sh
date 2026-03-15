@@ -62,7 +62,13 @@ echo "  Claude Code installed."
 # --- Zellij ---
 echo "[6/7] Installing Zellij..."
 ZELLIJ_VERSION=$(curl -s https://api.github.com/repos/zellij-org/zellij/releases/latest | jq -r .tag_name)
-curl -L "https://github.com/zellij-org/zellij/releases/download/${ZELLIJ_VERSION}/zellij-x86_64-unknown-linux-musl.tar.gz" | tar xz -C /usr/local/bin
+ARCH=$(uname -m)
+if [ "$ARCH" = "aarch64" ]; then
+    ZELLIJ_ARCH="aarch64-unknown-linux-musl"
+else
+    ZELLIJ_ARCH="x86_64-unknown-linux-musl"
+fi
+curl -L "https://github.com/zellij-org/zellij/releases/download/${ZELLIJ_VERSION}/zellij-${ZELLIJ_ARCH}.tar.gz" | tar xz -C /usr/local/bin
 chmod +x /usr/local/bin/zellij
 echo "  Zellij ${ZELLIJ_VERSION} installed."
 
@@ -83,13 +89,15 @@ fi
 echo "Hardening SSH..."
 sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
 sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
-systemctl restart sshd
+systemctl restart ssh
 
 # --- Shell Config for User ---
 echo "Configuring shell for $USERNAME..."
 su - $USERNAME -c 'cat >> ~/.bashrc << "BASHEOF"
 
 # --- Dev Server Config ---
+export PATH="$HOME/.local/bin:$PATH"
+
 # Auto-attach Zellij on SSH login
 if [[ -z "$ZELLIJ" && -n "$SSH_CONNECTION" ]]; then
     zellij attach coding 2>/dev/null || zellij -s coding

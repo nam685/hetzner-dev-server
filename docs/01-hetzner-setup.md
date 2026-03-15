@@ -50,12 +50,13 @@ hcloud server create \
 ## 4. First SSH Connection
 
 ```bash
+# First time only — root, to run setup.sh (which creates user 'nam')
 ssh root@YOUR_SERVER_IP
 ```
 
 The IP is shown in the Hetzner Console or in the `hcloud server list` output.
 
-Add to your `~/.ssh/config` for convenience:
+After running setup.sh, root SSH is disabled. Add to your `~/.ssh/config` for all future connections:
 ```
 Host dev
     HostName YOUR_SERVER_IP

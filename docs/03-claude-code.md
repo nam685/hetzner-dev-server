@@ -34,15 +34,26 @@ npm install -g @anthropic-ai/claude-code
 
 ## Authenticate
 
-### Option A: Claude Max (recommended)
+### Headless server (copy credentials from local machine)
+
+`claude auth login` opens a browser — which doesn't work on a headless server. Instead, copy OAuth credentials from a machine where you're already logged in.
+
+**On macOS (where you're already authenticated):**
 
 ```bash
-claude auth
-# Follow the browser-based OAuth flow
-# If on a headless server, it will give you a URL to open on any device
+# Extract OAuth credentials from Keychain and send to server
+security find-generic-password -s "Claude Code-credentials" -w \
+  | python3 -c "import sys,json; d=json.load(sys.stdin); print(json.dumps({k:v for k,v in d.items() if 'claudeAiOauth' in k}))" \
+  | ssh dev 'mkdir -p ~/.claude && cat > ~/.claude/.credentials.json'
 ```
 
-### Option B: API Key
+**On the server, verify:**
+
+```bash
+claude auth status
+```
+
+### API Key (alternative, pay-per-use)
 
 ```bash
 export ANTHROPIC_API_KEY="sk-ant-..."
