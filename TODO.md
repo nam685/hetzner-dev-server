@@ -9,24 +9,24 @@
 - [x] Run `scripts/setup.sh` on server (with manual fixes for ssh.service, ARM64 Zellij, PATH)
 - [x] Authenticate Claude Code: `claude` (interactive mode handles auth)
 - [x] Add SSH key to server from Mac laptop
-- [ ] Add SSH key to server from Windows laptop (WSL2)
+- [x] Add SSH key to server from Windows laptop (WSL2)
 - [x] Configure `~/.ssh/config` on Mac laptop
-- [ ] Configure `~/.ssh/config` on Windows laptop (WSL2)
+- [x] Configure `~/.ssh/config` on Windows laptop (WSL2)
 
 ## Phone setup (Android S23)
-- [ ] Install Termux from F-Droid (not Google Play)
-- [ ] Install Mosh in Termux: `pkg install openssh mosh`
-- [ ] Generate SSH key on phone and add to server
-- [ ] Configure `~/.ssh/config` in Termux
-- [ ] Enable clickable URLs: `terminal-onclick-url-open=true` in `~/.termux/termux.properties`
-- [ ] Install GitHub app on phone (for PR review via tapped links)
-- [ ] Optional: install Termux:Styling from F-Droid for better fonts
-- [ ] Test voice input workflow with Gboard
+- [x] Install Termux from F-Droid (not Google Play)
+- [x] Install Mosh in Termux: `pkg install openssh mosh`
+- [x] Generate SSH key on phone and add to server
+- [x] Configure `~/.ssh/config` in Termux
+- [x] Enable clickable URLs: `terminal-onclick-url-open=true` in `~/.termux/termux.properties`
+- [x] Install GitHub app on phone (for PR review via tapped links)
+- [x] Install Termux:Styling from F-Droid for better fonts
+- [x] Test voice input (Samsung voice input)
 
 ## Post-setup
 - [x] Copy `scripts/new-claude` to server `~/.local/bin/`
 - [ ] Copy `scripts/zellij-multiclaud.kdl` to server `~/.config/zellij/layouts/`
 - [ ] Test multiclauding layout from Mac (iTerm2 `new-claude`)
 - [x] Test multiclauding layout from server (Zellij `new-claude`)
-- [ ] Test phone workflow: Termux → Mosh → Zellij → Claude Code → PR link → GitHub app
+- [x] Test phone workflow: Termux → SSH → Zellij → Claude Code → PR (first PR from phone!)
 - [ ] Clone a project repo on server and test a full Claude Code session
