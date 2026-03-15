@@ -25,8 +25,8 @@
 
 ## Post-setup
 - [x] Copy `scripts/new-claude` to server `~/.local/bin/`
-- [ ] Copy `scripts/zellij-multiclaud.kdl` to server `~/.config/zellij/layouts/`
-- [ ] Test multiclauding layout from Mac (iTerm2 `new-claude`)
+- ~~Copy `scripts/zellij-multiclaud.kdl` to server~~ (skipped — `new-claude` covers this)
+- [x] Test multiclauding layout from Mac (iTerm2 `new-claude`)
 - [x] Test multiclauding layout from server (Zellij `new-claude`)
 - [x] Test phone workflow: Termux → SSH → Zellij → Claude Code → PR (first PR from phone!)
-- [ ] Clone a project repo on server and test a full Claude Code session
+- [x] Clone a project repo on server and test a full Claude Code session (nam-website from Windows)
