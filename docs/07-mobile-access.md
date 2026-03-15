@@ -67,16 +67,25 @@ No multi-pane split needed on a phone screen. Claude Code replaces all the extra
 | Logs pane | Claude runs `ell up` / `nam up` in background |
 | PR review | Tap PR link → opens GitHub app |
 
+### Session setup
+
+The server `.bashrc` auto-detects your terminal width. Phone (< 100 columns) gets a dedicated `phone` session — just one pane, no tabs or splits. Laptop gets the `coding` session with multi-pane layouts.
+
 ### Daily workflow
 
 ```
 1. Open Termux
-2. mosh dev -- zellij a coding
-3. You're in Claude Code — single fullscreen pane
+2. ssh dev          (auto-attaches to "phone" Zellij session)
+3. Run: claude      (or just 'c')
 4. Voice or type: "implement auth middleware, then make a PR"
 5. Claude does the work, creates PR, outputs link
 6. Tap PR link → GitHub app → review diff, approve
 7. Close Termux — session stays alive on server
+```
+
+Or with Mosh for resilient connection:
+```
+mosh dev
 ```
 
 ## Voice Input

@@ -99,14 +99,21 @@ su - $USERNAME -c 'cat >> ~/.bashrc << "BASHEOF"
 export PATH="$HOME/.local/bin:$PATH"
 
 # Auto-attach Zellij on SSH login
+# Narrow terminal (phone) → single-pane "phone" session
+# Wide terminal (laptop) → multi-pane "coding" session
 if [[ -z "$ZELLIJ" && -n "$SSH_CONNECTION" ]]; then
-    zellij attach coding 2>/dev/null || zellij -s coding
+    if [[ $(tput cols) -lt 100 ]]; then
+        zellij attach phone 2>/dev/null || zellij -s phone
+    else
+        zellij attach coding 2>/dev/null || zellij -s coding
+    fi
 fi
 
 # Aliases
 alias c="claude"
 alias z="zellij"
 alias za="zellij attach coding 2>/dev/null || zellij -s coding"
+alias zp="zellij attach phone 2>/dev/null || zellij -s phone"
 alias gs="git status"
 alias gp="git push"
 alias update="sudo apt update && sudo apt upgrade -y && claude update"
