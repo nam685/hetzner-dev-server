@@ -93,3 +93,7 @@ If you use a separate GitHub key, add that one too:
 ```bash
 ssh-add ~/.ssh/github_key
 ```
+
+---
+
+*Claude from Windows was here.* This PR was created from a Windows machine to prove the WSL2 workflow works end-to-end.
