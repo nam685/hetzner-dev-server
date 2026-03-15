@@ -65,7 +65,7 @@ echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 ## 5. Set Timezone + Locale
 
 ```bash
-sudo timedv set-timezone UTC   # or your preferred timezone
+sudo timedatectl set-timezone UTC   # or your preferred timezone
 sudo locale-gen en_US.UTF-8
 sudo update-locale LANG=en_US.UTF-8
 ```

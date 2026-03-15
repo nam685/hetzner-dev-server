@@ -4,7 +4,7 @@ Remote development server on Hetzner Cloud running Claude Code CLI — code from
 
 ## Overview
 
-- **Server**: Hetzner Cloud CX32 (4 vCPU, 8GB RAM, 80GB disk) — ~EUR 8/month
+- **Server**: Hetzner Cloud CX32 (4 vCPU, 8GB RAM, 80GB disk) — ~EUR 7/month
 - **AI**: Claude Code CLI with Claude Max subscription ($200/month)
 - **OS**: Ubuntu 24.04 LTS
 - **Access**: SSH from iTerm2 / VS Code Remote SSH / Phone (Mosh)

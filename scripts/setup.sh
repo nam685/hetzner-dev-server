@@ -7,16 +7,15 @@ set -euo pipefail
 
 # --- Configuration ---
 USERNAME="nam"
-NODE_VERSION="22"  # LTS
 
 echo "=== Hetzner Dev Server Setup ==="
 
 # --- System Updates ---
-echo "[1/8] Updating system packages..."
+echo "[1/7] Updating system packages..."
 apt update && apt upgrade -y
 
 # --- Essential Tools ---
-echo "[2/8] Installing essential tools..."
+echo "[2/7] Installing essential tools..."
 apt install -y \
     build-essential \
     curl \
@@ -32,13 +31,13 @@ apt install -y \
     ufw
 
 # --- Firewall ---
-echo "[3/8] Configuring firewall..."
+echo "[3/7] Configuring firewall..."
 ufw allow OpenSSH
 ufw allow 60000:61000/udp  # Mosh
 ufw --force enable
 
 # --- Create User (if not exists) ---
-echo "[4/8] Setting up user: $USERNAME..."
+echo "[4/7] Setting up user: $USERNAME..."
 if ! id "$USERNAME" &>/dev/null; then
     adduser --disabled-password --gecos "" "$USERNAME"
     usermod -aG sudo "$USERNAME"
@@ -55,26 +54,20 @@ else
     echo "  User $USERNAME already exists, skipping."
 fi
 
-# --- Node.js ---
-echo "[5/8] Installing Node.js $NODE_VERSION..."
-curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
-apt install -y nodejs
-echo "  Node.js $(node --version) installed."
-
-# --- Claude Code CLI ---
-echo "[6/8] Installing Claude Code CLI..."
-npm install -g @anthropic-ai/claude-code
-echo "  Claude Code $(claude --version 2>/dev/null || echo 'installed') ready."
+# --- Claude Code CLI (native installer, no Node.js needed) ---
+echo "[5/7] Installing Claude Code CLI..."
+su - $USERNAME -c 'curl -fsSL https://claude.ai/install.sh | bash'
+echo "  Claude Code installed."
 
 # --- Zellij ---
-echo "[7/8] Installing Zellij..."
+echo "[6/7] Installing Zellij..."
 ZELLIJ_VERSION=$(curl -s https://api.github.com/repos/zellij-org/zellij/releases/latest | jq -r .tag_name)
 curl -L "https://github.com/zellij-org/zellij/releases/download/${ZELLIJ_VERSION}/zellij-x86_64-unknown-linux-musl.tar.gz" | tar xz -C /usr/local/bin
 chmod +x /usr/local/bin/zellij
 echo "  Zellij ${ZELLIJ_VERSION} installed."
 
 # --- Swap ---
-echo "[8/8] Setting up swap..."
+echo "[7/7] Setting up swap..."
 if [ ! -f /swapfile ]; then
     fallocate -l 4G /swapfile
     chmod 600 /swapfile
@@ -108,7 +101,7 @@ alias z="zellij"
 alias za="zellij attach coding 2>/dev/null || zellij -s coding"
 alias gs="git status"
 alias gp="git push"
-alias update="sudo apt update && sudo apt upgrade -y && npm update -g @anthropic-ai/claude-code"
+alias update="sudo apt update && sudo apt upgrade -y && claude update"
 BASHEOF'
 
 echo ""

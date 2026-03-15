@@ -23,7 +23,7 @@ Add this public key in Hetzner Console → Security → SSH Keys.
 2. Settings:
    - **Location**: Falkenstein (FSN1) or Nuremberg (NBG1) — cheapest EU locations
    - **Image**: Ubuntu 24.04
-   - **Type**: Shared vCPU → CX32 (4 vCPU, 8GB RAM, 80GB SSD) — ~EUR 7.69/month
+   - **Type**: Shared vCPU → CX32 (4 vCPU, 8GB RAM, 80GB SSD) — ~EUR 6.80/month
    - **Networking**: Public IPv4 + IPv6
    - **SSH Key**: Select the key you added
    - **Name**: `dev-server` (or whatever you like)
@@ -70,10 +70,13 @@ Then just: `ssh dev`
 
 | Type | vCPU | RAM | Disk | ~EUR/month |
 |------|------|-----|------|------------|
-| CX22 | 2 | 4 GB | 40 GB | 3.99 |
-| CX32 | 4 | 8 GB | 80 GB | 7.69 |
-| CX42 | 8 | 16 GB | 160 GB | 14.99 |
-| CX52 | 16 | 32 GB | 320 GB | 29.99 |
+| CX22 | 2 | 4 GB | 40 GB | 3.79 |
+| CX32 | 4 | 8 GB | 80 GB | 6.80 |
+| CX42 | 8 | 16 GB | 160 GB | 16.40 |
+
+All plans include 20 TB monthly traffic and 1 IPv4 address (EU locations). US locations cost ~20% more.
+
+**Note**: Hetzner prices increase April 1, 2026 for new and existing products.
 
 Upgrading is easy: Hetzner Console → Server → Rescale. Takes a reboot (~1 min).
 
@@ -89,6 +92,6 @@ Upgrading is easy: Hetzner Console → Server → Rescale. Takes a reboot (~1 mi
 
 | Item | Cost |
 |------|------|
-| CX32 server | ~EUR 8 |
-| Claude Max subscription | $200 |
-| **Total** | **~$210/month** |
+| CX32 server | ~EUR 7 |
+| Claude Max subscription | $100-200 (see below) |
+| **Total** | **~$107-207/month** |

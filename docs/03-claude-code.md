@@ -2,20 +2,31 @@
 
 ## Prerequisites
 
-- Node.js 18+ (installed by setup script)
-- Claude Max subscription ($200/month) or Anthropic API key
+- Claude Max subscription or Anthropic API key
+- No Node.js required (native installer available)
 
 ## Subscription Options
 
 | Plan | Price | Claude Code Usage |
 |------|-------|-------------------|
-| Claude Max | $200/month | High usage limits, best for daily coding |
+| Claude Max $100 | $100/month | 5x Pro rate limits |
+| Claude Max $200 | $200/month | 20x Pro rate limits, best for daily heavy coding |
 | Claude Pro | $20/month | Limited Claude Code usage |
 | API (pay-per-use) | Variable | Pay per token, no monthly cap but can get expensive with heavy use |
 
-**Recommendation**: Claude Max at $200/month is the right call if you're using Claude Code as your primary coding tool daily. The API alternative can exceed $200/month easily with heavy Opus usage.
+**Recommendation**: Start with Max $100/month. Upgrade to $200 if you hit rate limits regularly. The API can exceed these amounts easily with heavy Opus usage.
 
 ## Install Claude Code CLI
+
+### Option A: Native installer (recommended, no Node.js needed)
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+Binary goes to `~/.local/bin/claude`. Make sure `~/.local/bin` is in your PATH.
+
+### Option B: Via npm
 
 ```bash
 npm install -g @anthropic-ai/claude-code
@@ -84,5 +95,9 @@ claude --resume
 ## Updating
 
 ```bash
+# If installed via native installer
+claude update
+
+# If installed via npm
 npm update -g @anthropic-ai/claude-code
 ```
