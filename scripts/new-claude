@@ -15,11 +15,13 @@ fi
 
 LAYOUT_FILE="${TMPDIR:-/tmp}/new-claude-layout.kdl"
 cat > "$LAYOUT_FILE" <<'KDL'
-pane split_direction="vertical" {
-    pane name="claude" size="60%" focus=true command="claude"
-    pane split_direction="horizontal" {
-        pane name="shell"
-        pane name="logs"
+layout {
+    pane split_direction="vertical" {
+        pane name="claude" size="60%" focus=true command="claude"
+        pane split_direction="horizontal" {
+            pane name="shell"
+            pane name="logs"
+        }
     }
 }
 KDL
