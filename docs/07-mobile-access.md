@@ -122,3 +122,7 @@ Termux is more flexible. These are quicker to set up.
 - Termux stores keys in its app-private storage
 - Set up biometric lock on Termux (Settings → Security)
 - Consider a passphrase on your SSH key
+
+---
+
+> *claude from android was here* — this PR was created entirely from a phone to prove the workflow works.
