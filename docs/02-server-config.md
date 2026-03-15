@@ -31,7 +31,7 @@ PubkeyAuthentication yes
 
 Restart SSH:
 ```bash
-sudo systemctl restart sshd
+sudo systemctl restart ssh
 ```
 
 **Test** by opening a new terminal and SSH-ing as `nam` before closing your root session.

@@ -4,8 +4,8 @@ Remote development server on Hetzner Cloud running Claude Code CLI — code from
 
 ## Overview
 
-- **Server**: Hetzner Cloud CX32 (4 vCPU, 8GB RAM, 80GB disk) — ~EUR 7/month
-- **AI**: Claude Code CLI with Claude Max subscription ($200/month)
+- **Server**: Hetzner Cloud CAX21 (ARM64, 4 vCPU, 8GB RAM, 40GB disk) in Helsinki — ~EUR 8/month
+- **AI**: Claude Code CLI with Claude Max subscription ($100-200/month)
 - **OS**: Ubuntu 24.04 LTS
 - **Access**: SSH from any laptop (Mac/Windows WSL2) / VS Code Remote / Android phone (Termux + Mosh)
 - **Session persistence**: Zellij (modern tmux alternative with sane keybindings)
@@ -32,8 +32,8 @@ scp scripts/setup.sh root@YOUR_SERVER_IP:~
 ssh root@YOUR_SERVER_IP
 bash setup.sh
 
-# 3. Authenticate Claude Code
-claude auth
+# 3. Authenticate Claude Code (interactive mode handles auth)
+claude
 
 # 4. Start coding
 zellij
@@ -51,6 +51,7 @@ claude
 | [docs/05-vscode-remote.md](docs/05-vscode-remote.md) | VS Code Remote SSH setup |
 | [docs/06-maintenance.md](docs/06-maintenance.md) | Backups, upgrades, cost management |
 | [docs/07-mobile-access.md](docs/07-mobile-access.md) | Coding from Android phone (Termux, Mosh, voice input) |
+| [docs/08-windows-wsl2.md](docs/08-windows-wsl2.md) | Connecting from Windows laptop (WSL2) |
 
 ## Scripts
 

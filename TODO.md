@@ -24,9 +24,9 @@
 - [ ] Test voice input workflow with Gboard
 
 ## Post-setup
-- [ ] Copy `scripts/new-claude` to server `~/.local/bin/`
+- [x] Copy `scripts/new-claude` to server `~/.local/bin/`
 - [ ] Copy `scripts/zellij-multiclaud.kdl` to server `~/.config/zellij/layouts/`
 - [ ] Test multiclauding layout from Mac (iTerm2 `new-claude`)
-- [ ] Test multiclauding layout from server (Zellij `new-claude`)
+- [x] Test multiclauding layout from server (Zellij `new-claude`)
 - [ ] Test phone workflow: Termux → Mosh → Zellij → Claude Code → PR link → GitHub app
 - [ ] Clone a project repo on server and test a full Claude Code session
