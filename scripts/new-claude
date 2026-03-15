@@ -16,11 +16,22 @@ fi
 LAYOUT_FILE="${TMPDIR:-/tmp}/new-claude-layout.kdl"
 cat > "$LAYOUT_FILE" <<'KDL'
 layout {
-    pane split_direction="vertical" {
-        pane name="claude" size="60%" focus=true command="claude"
-        pane split_direction="horizontal" {
-            pane name="shell"
-            pane name="logs"
+    tab_template name="default" {
+        pane size=1 borderless=true {
+            plugin location="tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="status-bar"
+        }
+    }
+    default name="claude" {
+        pane split_direction="vertical" {
+            pane name="claude" size="60%" focus=true command="claude"
+            pane split_direction="horizontal" {
+                pane name="shell"
+                pane name="logs"
+            }
         }
     }
 }
