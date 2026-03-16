@@ -28,7 +28,8 @@ apt install -y \
     ripgrep \
     fd-find \
     mosh \
-    ufw
+    ufw \
+    fail2ban
 
 # --- Firewall ---
 echo "[3/7] Configuring firewall..."
@@ -110,7 +111,12 @@ if [[ -z "$ZELLIJ" && -n "$SSH_CONNECTION" ]]; then
 fi
 
 # Aliases
-alias c="claude"
+# Skip permissions on phone (narrow terminal), normal on laptop
+if [[ \$(tput cols) -lt 100 ]]; then
+    alias c="claude --dangerously-skip-permissions"
+else
+    alias c="claude"
+fi
 alias z="zellij"
 alias za="zellij attach coding 2>/dev/null || zellij -s coding"
 alias zp="zellij attach phone 2>/dev/null || zellij -s phone"

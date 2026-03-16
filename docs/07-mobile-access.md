@@ -76,7 +76,7 @@ The server `.bashrc` auto-detects your terminal width. Phone (< 100 columns) get
 ```
 1. Open Termux
 2. ssh dev          (auto-attaches to "phone" Zellij session)
-3. Run: claude      (or just 'c')
+3. Run: c           (alias for claude --dangerously-skip-permissions on phone)
 4. Voice or type: "implement auth middleware, then make a PR"
 5. Claude does the work, creates PR, outputs link
 6. Tap PR link → GitHub app → review diff, approve
@@ -94,7 +94,7 @@ The phone keyboard is the bottleneck. Voice makes this practical.
 
 ### How
 
-1. Tap the microphone icon on Gboard (or hold spacebar)
+1. Tap the microphone icon on Samsung keyboard (or hold spacebar)
 2. Dictate your prompt naturally
 3. Edit if needed, then hit Enter
 
@@ -122,7 +122,7 @@ Pinch-to-zoom works for font size but breaks normal scrolling. Workarounds:
 
 | Method | How |
 |--------|-----|
-| **Volume keys** | `Volume Up` = Page Up, `Volume Down` = Page Down (built-in, works always) |
+| **Zellij scroll mode** | `Ctrl+S` → PgUp/PgDn to scroll → `Esc` to exit (most reliable) |
 | **Extra keys row** | Add `extra-keys` to `~/.termux/termux.properties` — puts arrows, PgUp/PgDn on screen |
 | **Increase transcript** | Add `terminal-transcript-rows=10000` to `~/.termux/termux.properties` for more scrollback |
 

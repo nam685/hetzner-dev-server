@@ -16,7 +16,7 @@ Remote development server on Hetzner Cloud running Claude Code CLI — code from
 |--------|-----|
 | Mac laptop (work) | iTerm2 → `ssh dev` or `new-claude ~/project` (local) |
 | Windows laptop (personal) | WSL2 → `ssh dev` or `mosh dev` |
-| Android phone (S23) | Termux → `mosh dev -- zellij a coding` (single pane + voice) |
+| Android phone (S23) | Termux → `mosh dev` (auto-attaches to "phone" Zellij session) |
 | VS Code (any laptop) | Remote SSH extension → connect to `dev` |
 
 All connections land in the same Zellij session on the server. Pick up where you left off from any device.
