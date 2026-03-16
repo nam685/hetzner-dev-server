@@ -30,3 +30,21 @@
 - [x] Test multiclauding layout from server (Zellij `new-claude`)
 - [x] Test phone workflow: Termux → SSH → Zellij → Claude Code → PR (first PR from phone!)
 - [x] Clone a project repo on server and test a full Claude Code session (nam-website from Windows)
+
+## Claude Code config
+- [ ] Add global `~/.claude/CLAUDE.md` with "be succinct on narrow terminal" instruction
+- [ ] Add project-level `CLAUDE.md` to repos cloned on server
+
+## Termux quality-of-life
+- [ ] Fix scrolling: two-finger swipe doesn't scroll in zoomed mode — try `terminal-transcript-rows` increase or switch to volume-key scrolling
+- [ ] Add extra-keys row in `~/.termux/termux.properties` (Page Up/Down, Ctrl, Esc, Tab, arrow keys)
+- [ ] Try Mosh instead of SSH for flaky connections: `mosh dev`
+- [ ] Set up Termux:Widget for one-tap SSH shortcut on home screen
+- [ ] Alias `c` to `claude --dangerously-skip-permissions` for hands-free phone sessions (voice-driven)
+
+## Security
+- [x] SSH key-only auth (PasswordAuthentication no)
+- [x] Root login disabled (PermitRootLogin no)
+- [x] UFW firewall enabled (SSH + Mosh ports only)
+- [ ] Add fail2ban: `sudo apt install fail2ban` (nice-to-have, reduces log noise from bots)
+- [ ] When serving nam-website: open ports 80/443 in UFW, set up nginx/caddy

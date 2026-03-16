@@ -116,6 +116,34 @@ If you want a GUI SSH app instead of Termux:
 
 Termux is more flexible. These are quicker to set up.
 
+## Scrolling in Termux
+
+Pinch-to-zoom works for font size but breaks normal scrolling. Workarounds:
+
+| Method | How |
+|--------|-----|
+| **Volume keys** | `Volume Up` = Page Up, `Volume Down` = Page Down (built-in, works always) |
+| **Extra keys row** | Add `extra-keys` to `~/.termux/termux.properties` — puts arrows, PgUp/PgDn on screen |
+| **Increase transcript** | Add `terminal-transcript-rows=10000` to `~/.termux/termux.properties` for more scrollback |
+
+### Recommended extra-keys config
+
+Add to `~/.termux/termux.properties`:
+```
+extra-keys = [['ESC','/','-','HOME','UP','END','PGUP'],['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN']]
+```
+Then run `termux-reload-settings`.
+
+## Claude Code on Phone
+
+Tell Claude to keep responses short when on mobile. Add to your project or global `CLAUDE.md`:
+
+```
+When terminal width is under 100 columns, keep responses very short and concise — user is on a phone.
+```
+
+Or just start your session with: "be succinct, i'm on my phone"
+
 ## Security
 
 - Use SSH keys, never passwords (already configured)
