@@ -32,19 +32,19 @@
 - [x] Clone a project repo on server and test a full Claude Code session (nam-website from Windows)
 
 ## Claude Code config
-- [ ] Add global `~/.claude/CLAUDE.md` with "be succinct on narrow terminal" instruction
+- [x] Add global `~/.claude/CLAUDE.md` with "be succinct on narrow terminal" instruction
 - [ ] Add project-level `CLAUDE.md` to repos cloned on server
 
 ## Termux quality-of-life
-- [ ] Fix scrolling: two-finger swipe doesn't scroll in zoomed mode — try `terminal-transcript-rows` increase or switch to volume-key scrolling
-- [ ] Add extra-keys row in `~/.termux/termux.properties` (Page Up/Down, Ctrl, Esc, Tab, arrow keys)
-- [ ] Try Mosh instead of SSH for flaky connections: `mosh dev`
-- [ ] Set up Termux:Widget for one-tap SSH shortcut on home screen
-- [ ] Alias `c` to `claude --dangerously-skip-permissions` for hands-free phone sessions (voice-driven)
+- [x] Scrolling: use Zellij scroll mode (`Ctrl+S`, then PgUp/PgDn, `Esc` to exit)
+- [x] Extra-keys row configured (PgUp/PgDn, Ctrl, Esc, Tab, arrows)
+- [x] Using Mosh for resilient connections
+- [x] Termux:Widget installed for one-tap SSH shortcut
+- [x] Alias `c` conditionally: `--dangerously-skip-permissions` on phone (< 100 cols), normal on laptop
 
 ## Security
 - [x] SSH key-only auth (PasswordAuthentication no)
 - [x] Root login disabled (PermitRootLogin no)
 - [x] UFW firewall enabled (SSH + Mosh ports only)
-- [ ] Add fail2ban: `sudo apt install fail2ban` (nice-to-have, reduces log noise from bots)
+- [x] fail2ban installed
 - [ ] When serving nam-website: open ports 80/443 in UFW, set up nginx/caddy
