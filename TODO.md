@@ -42,6 +42,12 @@
 - [x] Termux:Widget installed for one-tap SSH shortcut
 - [x] Alias `c` conditionally: `--dangerously-skip-permissions` on phone (< 100 cols), normal on laptop
 
+## Remote Control (Claude App → Server)
+- [ ] Pair Claude mobile app with running Claude Code session on server
+- [ ] Test Remote Control workflow: send prompt from app → verify execution on server
+- [ ] Test pairing persistence across app restarts
+- [ ] Document any gotchas or additional setup steps discovered
+
 ## Security
 - [x] SSH key-only auth (PasswordAuthentication no)
 - [x] Root login disabled (PermitRootLogin no)

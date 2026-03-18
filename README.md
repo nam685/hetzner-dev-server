@@ -7,7 +7,7 @@ Remote development server on Hetzner Cloud running Claude Code CLI — code from
 - **Server**: Hetzner Cloud CAX21 (ARM64, 4 vCPU, 8GB RAM, 40GB disk) in Helsinki — ~EUR 8/month
 - **AI**: Claude Code CLI with Claude Max subscription ($100-200/month)
 - **OS**: Ubuntu 24.04 LTS
-- **Access**: SSH from any laptop (Mac/Windows WSL2) / VS Code Remote / Android phone (Termux + Mosh)
+- **Access**: SSH from any laptop (Mac/Windows WSL2) / VS Code Remote / Claude app (Remote Control) / Android phone (Termux + Mosh)
 - **Session persistence**: Zellij (modern tmux alternative with sane keybindings)
 
 ## Connecting from Any Device
@@ -16,7 +16,7 @@ Remote development server on Hetzner Cloud running Claude Code CLI — code from
 |--------|-----|
 | Mac laptop (work) | iTerm2 → `ssh dev` or `new-claude ~/project` (local) |
 | Windows laptop (personal) | WSL2 → `ssh dev` or `mosh dev` |
-| Android phone (S23) | Termux → `mosh dev` (auto-attaches to "phone" Zellij session) |
+| Android phone (S23) | Claude app (Remote Control) or Termux → `mosh dev` |
 | VS Code (any laptop) | Remote SSH extension → connect to `dev` |
 
 All connections land in the same Zellij session on the server. Pick up where you left off from any device.
@@ -52,6 +52,7 @@ claude
 | [docs/06-maintenance.md](docs/06-maintenance.md) | Backups, upgrades, cost management |
 | [docs/07-mobile-access.md](docs/07-mobile-access.md) | Coding from Android phone (Termux, Mosh, voice input) |
 | [docs/08-windows-wsl2.md](docs/08-windows-wsl2.md) | Connecting from Windows laptop (WSL2) |
+| [docs/09-remote-control.md](docs/09-remote-control.md) | Remote Control — use Claude app to control server sessions |
 
 ## Scripts
 

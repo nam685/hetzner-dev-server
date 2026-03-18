@@ -49,7 +49,8 @@ Mosh handles flaky connections and roaming (WiFi → ethernet, sleep/resume). Re
 
 ```bash
 sudo apt install mosh
-mosh dev -- zellij attach coding
+mosh dev
+# Zellij auto-attaches via .bashrc — no need to specify session
 ```
 
 ## Daily Workflow
@@ -60,7 +61,7 @@ ssh dev
 # (Zellij auto-attaches via .bashrc)
 
 # Or with Mosh for resilience
-mosh dev -- zellij attach coding
+mosh dev
 
 # Open a new multiclauding tab
 new-claude ~/projects/my-repo

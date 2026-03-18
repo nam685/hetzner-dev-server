@@ -13,18 +13,25 @@ S23 (Termux + Mosh) → Internet → Hetzner Server (Zellij + Claude Code)
 - Claude Code does the heavy lifting — you voice/type prompts
 - Works on any connection: WiFi, 4G/5G, airport lounge, coffee shop
 
-## Claude App vs SSH + Claude Code CLI
+## Remote Control (Preferred)
 
-| | Claude App | SSH → Claude Code CLI |
-|---|---|---|
-| **What it is** | Chat about code | Agent working in your codebase |
-| **Filesystem** | None (isolated conversations) | Full access to your projects |
-| **Can run commands** | No | Yes (tests, builds, git, servers) |
-| **Session persistence** | Conversation history only | Zellij keeps everything alive |
-| **Multi-file edits** | Copy-paste manually | Claude edits files directly |
-| **Best for** | Quick questions, brainstorming | Actual implementation, shipping |
+Since Feb 2026, you can control a running Claude Code session on the server directly from the Claude mobile app — no SSH or Termux needed. See [docs/09-remote-control.md](09-remote-control.md) for full setup.
 
-**Use both**: Claude app for quick questions, SSH for actual work.
+Remote Control is the easiest way to interact with Claude from your phone. Use Termux+SSH as a fallback when you need raw shell access.
+
+## Claude App vs Remote Control vs Termux+SSH
+
+| | Claude App | Remote Control | Termux+SSH |
+|---|---|---|---|
+| **What it is** | Chat about code | Control CLI from app | Full terminal access |
+| **Filesystem** | None (isolated) | Full (via server) | Full (via server) |
+| **Can run commands** | No | Yes (through Claude) | Yes (direct shell) |
+| **Session persistence** | Conversation history | Zellij keeps alive | Zellij keeps alive |
+| **Multi-file edits** | Copy-paste manually | Claude edits directly | Claude edits directly |
+| **Setup** | Just install app | Pair once | SSH keys, Termux config |
+| **Best for** | Quick questions | Prompting Claude from phone | Shell access, multi-pane |
+
+**Use all three**: Claude app for quick questions, Remote Control for driving Claude from your phone, Termux+SSH when you need raw shell access.
 
 ## Setup: Termux (Android)
 
