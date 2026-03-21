@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-# new-claude — Open a new Zellij tab with 3 panes: claude | shell / logs
+# new-claude — Open a new Zellij tab with claude panes
+# Computer: 3 panes — claude | shell / logs
+# Phone (session "phone"): runs claude in current pane
+# Also kills the "coding" Zellij session if it exists.
 # Usage: new-claude [/path/to/worktree]
 
 set -euo pipefail
 
-DIR="${1:-.}"
+DIR="${1:-$HOME}"
 DIR="$(cd "$DIR" 2>/dev/null && pwd)" || { echo "Directory not found: $1"; exit 1; }
 NAME="$(basename "$DIR")"
 
@@ -13,6 +16,16 @@ if [ -z "${ZELLIJ:-}" ]; then
     exit 1
 fi
 
+# Kill "coding" session if it exists (ignore errors)
+zellij delete-session coding 2>/dev/null || true
+
+# Phone: just run claude in the current pane (no extra tabs)
+if [ "${ZELLIJ_SESSION_NAME:-}" = "phone" ]; then
+    cd "$DIR"
+    exec claude
+fi
+
+# Computer: 3 panes
 LAYOUT_FILE="${TMPDIR:-/tmp}/new-claude-layout.kdl"
 cat > "$LAYOUT_FILE" <<'KDL'
 layout {
