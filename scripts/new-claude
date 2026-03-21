@@ -17,7 +17,7 @@ if [ -z "${ZELLIJ:-}" ]; then
 fi
 
 # Kill "coding" session if it exists (ignore errors)
-zellij delete-session coding 2>/dev/null || true
+zellij kill-session coding 2>/dev/null || true
 
 # Phone: just run claude in the current pane (no extra tabs)
 if [ "${ZELLIJ_SESSION_NAME:-}" = "phone" ]; then

@@ -116,7 +116,7 @@ if [[ -z "\$ZELLIJ" && -n "\$SSH_CONNECTION" ]]; then
             [[ -z "\$name" || "\$name" == "\$hidden" ]] && continue
             options+=("\$name")
             actions+=("attach:\$name")
-        done < <(zellij list-sessions 2>/dev/null)
+        done < <(zellij list-sessions -ns 2>/dev/null)
 
         local default_new
         [[ "\$IS_PHONE" == true ]] && default_new="phone" || default_new="coding"
