@@ -99,17 +99,6 @@ su - $USERNAME -c 'cat >> ~/.bashrc << "BASHEOF"
 # --- Dev Server Config ---
 export PATH="$HOME/.local/bin:$PATH"
 
-# Auto-attach Zellij on SSH login
-# Narrow terminal (phone) → single-pane "phone" session
-# Wide terminal (laptop) → multi-pane "coding" session
-if [[ -z "$ZELLIJ" && -n "$SSH_CONNECTION" ]]; then
-    if [[ $(tput cols) -lt 100 ]]; then
-        zellij attach phone 2>/dev/null || zellij -s phone
-    else
-        zellij attach coding 2>/dev/null || zellij -s coding
-    fi
-fi
-
 # Aliases
 # Skip permissions on phone (narrow terminal), normal on laptop
 if [[ \$(tput cols) -lt 100 ]]; then
