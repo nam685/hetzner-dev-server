@@ -100,9 +100,65 @@ cat >> /home/$USERNAME/.bashrc << 'BASHEOF'
 # --- Dev Server Config ---
 export PATH="$HOME/.local/bin:$PATH"
 
+# Zellij session picker on SSH login
+if [[ -z "$ZELLIJ" && -n "$SSH_CONNECTION" ]]; then
+    cd ~
+    _zj_pick() {
+        local sessions=()
+        while IFS= read -r line; do
+            local name="${line%% *}"
+            [[ -n "$name" ]] && sessions+=("$name")
+        done < <(zellij list-sessions -ns 2>/dev/null)
+
+        local options=("New session" "Skip (no Zellij)")
+        for s in "${sessions[@]}"; do options+=("$s"); done
+
+        local cur=0 total=${#options[@]}
+        local bold=$'\e[1m' cyan=$'\e[36m' dim=$'\e[2m' reset=$'\e[0m'
+
+        _draw() {
+            (( $1 )) && printf '\e[%dA' "$total"
+            for i in "${!options[@]}"; do
+                printf '\r\e[K'
+                if (( i == cur )); then
+                    printf '  %s> %s%s\n' "$cyan$bold" "${options[$i]}" "$reset"
+                else
+                    printf '  %s  %s%s\n' "$dim" "${options[$i]}" "$reset"
+                fi
+            done
+        }
+
+        printf '\n %sZellij:%s\n' "$bold" "$reset"
+        _draw 0
+
+        while true; do
+            IFS= read -rsn1 key
+            case "$key" in
+                $'\e') read -rsn2 -t 0.01 seq
+                    case "$seq" in
+                        '[A') (( cur > 0 )) && (( cur-- )) ;;
+                        '[B') (( cur < total-1 )) && (( cur++ )) ;;
+                    esac ;;
+                k) (( cur > 0 )) && (( cur-- )) ;;
+                j) (( cur < total-1 )) && (( cur++ )) ;;
+                '') break ;;
+            esac
+            _draw 1
+        done
+
+        case "$cur" in
+            0) printf '\r\e[KSession name: '; read -r name
+               [[ -n "$name" ]] && zellij -s "$name" ;;
+            1) ;;
+            *) zellij attach "${sessions[$((cur-2))]}" ;;
+        esac
+    }
+    _zj_pick
+    unset -f _zj_pick
+fi
+
 # Aliases
 alias z="zellij"
-alias za="zellij attach main 2>/dev/null || zellij -s main"
 alias gs="git status"
 alias gp="git push"
 alias update="sudo apt update && sudo apt upgrade -y && claude update"
