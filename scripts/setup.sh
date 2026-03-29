@@ -29,13 +29,20 @@ apt install -y \
     fd-find \
     mosh \
     ufw \
-    fail2ban
+    fail2ban \
+    unattended-upgrades
 
 # --- Firewall ---
 echo "[3/7] Configuring firewall..."
-ufw allow OpenSSH
+ufw limit OpenSSH          # rate-limit SSH (blocks brute force)
 ufw allow 60000:61000/udp  # Mosh
 ufw --force enable
+
+# --- Auto Security Updates ---
+echo "Enabling automatic security updates..."
+echo unattended-upgrades unattended-upgrades/enable_auto_updates boolean true \
+    | debconf-set-selections
+dpkg-reconfigure -f noninteractive unattended-upgrades
 
 # --- Create User (if not exists) ---
 echo "[4/7] Setting up user: $USERNAME..."
