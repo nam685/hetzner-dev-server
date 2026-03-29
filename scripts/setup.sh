@@ -11,11 +11,11 @@ USERNAME="nam"
 echo "=== Hetzner Dev Server Setup ==="
 
 # --- System Updates ---
-echo "[1/6] Updating system packages..."
+echo "[1/7] Updating system packages..."
 apt update && apt upgrade -y
 
 # --- Essential Tools ---
-echo "[2/6] Installing essential tools..."
+echo "[2/7] Installing essential tools..."
 apt install -y \
     build-essential \
     curl \
@@ -27,16 +27,18 @@ apt install -y \
     tree \
     ripgrep \
     fd-find \
+    mosh \
     ufw \
     fail2ban
 
 # --- Firewall ---
-echo "[3/6] Configuring firewall..."
+echo "[3/7] Configuring firewall..."
 ufw allow OpenSSH
+ufw allow 60000:61000/udp  # Mosh
 ufw --force enable
 
 # --- Create User (if not exists) ---
-echo "[4/6] Setting up user: $USERNAME..."
+echo "[4/7] Setting up user: $USERNAME..."
 if ! id "$USERNAME" &>/dev/null; then
     adduser --disabled-password --gecos "" "$USERNAME"
     usermod -aG sudo "$USERNAME"
@@ -54,12 +56,25 @@ else
 fi
 
 # --- Claude Code CLI (native installer, no Node.js needed) ---
-echo "[5/6] Installing Claude Code CLI..."
+echo "[5/7] Installing Claude Code CLI..."
 su - $USERNAME -c 'curl -fsSL https://claude.ai/install.sh | bash'
 echo "  Claude Code installed."
 
+# --- Zellij ---
+echo "[6/7] Installing Zellij..."
+ZELLIJ_VERSION=$(curl -s https://api.github.com/repos/zellij-org/zellij/releases/latest | jq -r .tag_name)
+ARCH=$(uname -m)
+if [ "$ARCH" = "aarch64" ]; then
+    ZELLIJ_ARCH="aarch64-unknown-linux-musl"
+else
+    ZELLIJ_ARCH="x86_64-unknown-linux-musl"
+fi
+curl -L "https://github.com/zellij-org/zellij/releases/download/${ZELLIJ_VERSION}/zellij-${ZELLIJ_ARCH}.tar.gz" | tar xz -C /usr/local/bin
+chmod +x /usr/local/bin/zellij
+echo "  Zellij ${ZELLIJ_VERSION} installed."
+
 # --- Swap ---
-echo "[6/6] Setting up swap..."
+echo "[7/7] Setting up swap..."
 if [ ! -f /swapfile ]; then
     fallocate -l 4G /swapfile
     chmod 600 /swapfile
@@ -86,6 +101,8 @@ cat >> /home/$USERNAME/.bashrc << 'BASHEOF'
 export PATH="$HOME/.local/bin:$PATH"
 
 # Aliases
+alias z="zellij"
+alias za="zellij attach main 2>/dev/null || zellij -s main"
 alias gs="git status"
 alias gp="git push"
 alias update="sudo apt update && sudo apt upgrade -y && claude update"
