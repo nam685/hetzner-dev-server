@@ -1,64 +1,47 @@
 # Zellij — Terminal Multiplexer
 
-Zellij is a modern terminal multiplexer (like tmux) with much better defaults and keybindings. It shows a status bar with all shortcuts, so you don't have to memorize anything.
-
-## Why Zellij over tmux
-
-- **Discoverable UI**: Status bar shows available keybindings at all times
-- **No prefix key**: tmux requires Ctrl-b before every command. Zellij uses direct shortcuts.
-- **Intuitive modes**: Switch between Normal, Pane, Tab, Resize, etc. with clear visual feedback
-- **Sane defaults**: Works great out of the box, minimal config needed
-- **Session management**: Built-in session attach/detach (critical for SSH — your work survives disconnects)
+Zellij keeps your terminal session alive when you disconnect. Essential for phone/Termux — close the app, reconnect later, everything is still running.
 
 ## Install
 
-```bash
-# The setup script installs this, but if you need to install manually:
-bash <(curl -L zellij.dev/launch)
-
-# Or via cargo
-cargo install zellij
-
-# Or download binary
-curl -L https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz | tar xz
-sudo mv zellij /usr/local/bin/
-```
-
-## Essential Usage
+Handled by `scripts/setup.sh`. To install manually:
 
 ```bash
-# Start new session
-zellij
-
-# Start named session (recommended)
-zellij -s coding
-
-# List sessions
-zellij list-sessions
-zellij ls
-
-# Attach to existing session (after SSH reconnect)
-zellij attach coding
-zellij a coding
+ZELLIJ_VERSION=$(curl -s https://api.github.com/repos/zellij-org/zellij/releases/latest | jq -r .tag_name)
+curl -L "https://github.com/zellij-org/zellij/releases/download/${ZELLIJ_VERSION}/zellij-x86_64-unknown-linux-musl.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/zellij /usr/local/bin/
 ```
 
-## Key Bindings Cheatsheet
+## Session Picker
 
-Zellij uses a **modal** system. Press a mode key, then the action key.
+On SSH/Mosh login, `.bashrc` shows a picker:
 
-### Quick Reference
+```
+ Zellij:
+  > New session      <- prompts for a name
+    Skip (no Zellij)
+    my-session       <- existing sessions, if any
+```
+
+Arrow keys or j/k to navigate, Enter to confirm.
+
+## Aliases
+
+```bash
+z    # zellij
+```
+
+## Key Bindings
 
 | Action | Keys |
 |--------|------|
-| **Lock mode** (pass all keys to terminal) | Ctrl-g |
-| **Pane mode** | Ctrl-p |
-| **Tab mode** | Ctrl-t |
-| **Resize mode** | Ctrl-n |
-| **Scroll/Search mode** | Ctrl-s |
-| **Session mode** | Ctrl-o |
-| **Quit Zellij** | Ctrl-q |
+| Pane mode | Ctrl-p |
+| Tab mode | Ctrl-t |
+| Scroll mode | Ctrl-s |
+| Session mode | Ctrl-o |
+| Quit | Ctrl-q |
 
-### Pane Mode (Ctrl-p, then...)
+### Pane mode (Ctrl-p, then...)
 
 | Key | Action |
 |-----|--------|
@@ -67,99 +50,27 @@ Zellij uses a **modal** system. Press a mode key, then the action key.
 | r | Split right |
 | x | Close pane |
 | f | Toggle fullscreen |
-| Arrow keys | Navigate between panes |
+| Arrows | Navigate panes |
 
-### Tab Mode (Ctrl-t, then...)
+### Tab mode (Ctrl-t, then...)
 
 | Key | Action |
 |-----|--------|
 | n | New tab |
 | x | Close tab |
-| r | Rename tab |
-| Arrow keys | Switch tabs |
-| 1-9 | Go to tab N |
+| Arrows / 1-9 | Switch tabs |
 
-### Session Mode (Ctrl-o, then...)
+### Session mode (Ctrl-o, then...)
 
 | Key | Action |
 |-----|--------|
 | d | Detach (session keeps running) |
-| w | Session manager |
 
-## Typical Workflow
+## Scrolling in Termux
 
-```bash
-# SSH into server
-ssh dev
+`Ctrl-s` → scroll mode → PgUp/PgDn → `Esc` to exit.
 
-# Start or reattach session
-zellij a coding || zellij -s coding
-
-# Now you're in Zellij:
-# - Tab 1: claude (Claude Code session)
-# - Tab 2: shell (for git, builds, etc.)
-# - Tab 3: logs / servers
-
-# If SSH disconnects, just reconnect and:
-zellij a coding
-# Everything is exactly where you left it
+Add to `~/.termux/termux.properties` for on-screen PgUp/PgDn keys:
 ```
-
-## Auto-Start on SSH (optional)
-
-Add to `~/.bashrc`:
-```bash
-if [[ -z "$ZELLIJ" && -n "$SSH_CONNECTION" ]]; then
-    zellij attach coding 2>/dev/null || zellij -s coding
-fi
-```
-
-This auto-attaches to your session on SSH login.
-
-## Multiclauding Layout
-
-Run multiple Claude instances in parallel — each tab has 3 panes:
-
-```
-Tab "task-1"                Tab "task-2"                Tab "task-3"
-┌──────────┬─────────┐  ┌──────────┬─────────┐  ┌──────────┬─────────┐
-│ claude   │  shell  │  │ claude   │  shell  │  │ claude   │  shell  │
-│          │         │  │          │         │  │          │         │
-│          ├─────────┤  │          ├─────────┤  │          ├─────────┤
-│          │  logs   │  │          │  logs   │  │          │  logs   │
-└──────────┴─────────┘  └──────────┴─────────┘  └──────────┴─────────┘
-```
-
-### Start with layout
-
-```bash
-# From the repo
-zellij --layout scripts/zellij-multiclaud.kdl
-
-# Or copy to your Zellij layouts dir
-cp scripts/zellij-multiclaud.kdl ~/.config/zellij/layouts/
-zellij --layout multiclaud
-```
-
-Then in each tab's left pane, run `claude` (or `c`). Use the right panes for shell commands and log tailing (`ell up`, `nam up`, etc.).
-
-### Quick manual setup (no layout file)
-
-```bash
-zellij -s coding
-# Ctrl-p → r (split right) → Ctrl-p → arrow to right pane
-# Ctrl-p → d (split down) → done
-# Ctrl-t → n (new tab) → repeat
-```
-
-## Config (optional)
-
-Config file: `~/.config/zellij/config.kdl`
-
-```kdl
-// Example: change theme
-theme "catppuccin-mocha"
-
-// Example: set default layout
-default_layout "compact"
+extra-keys = [['ESC','/','-','HOME','UP','END','PGUP'],['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN']]
 ```

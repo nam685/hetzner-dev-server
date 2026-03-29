@@ -1,79 +1,46 @@
 # Server Configuration
 
-## 1. Create Non-Root User
+Everything is handled by `scripts/setup.sh`. This doc describes what it does for reference.
+
+## What setup.sh Does
+
+1. **System update** — `apt update && apt upgrade`
+2. **Installs**: build-essential, curl, git, htop, jq, ripgrep, fd-find, mosh, ufw, fail2ban
+3. **Firewall (UFW)**: allows SSH (22) and Mosh (60000-61000/udp)
+4. **Creates user `nam`**: sudo, passwordless sudo, copies root's authorized_keys
+5. **Installs Claude Code** via native installer
+6. **Installs Zellij** (latest release binary)
+7. **4GB swap** at `/swapfile`
+8. **SSH hardening**: disables root login and password auth, restarts sshd
+9. **Adds to `~/.bashrc`**: PATH, Zellij session picker on SSH login, aliases
+
+## Manual Steps After Setup
 
 ```bash
-# On the server as root
-adduser nam
-usermod -aG sudo nam
+# 1. Authenticate Claude Code
+claude
 
-# Copy SSH authorized_keys to new user
-mkdir -p /home/nam/.ssh
-cp /root/.ssh/authorized_keys /home/nam/.ssh/
-chown -R nam:nam /home/nam/.ssh
-chmod 700 /home/nam/.ssh
-chmod 600 /home/nam/.ssh/authorized_keys
-```
+# 2. Set up GitHub SSH key for cloning private repos
+ssh-keygen -t ed25519 -C "hetzner" -f ~/.ssh/id_ed25519_github
+cat ~/.ssh/id_ed25519_github.pub
+# Add to GitHub: repo → Settings → Deploy keys → Add deploy key
+cat >> ~/.ssh/config << 'EOF'
+Host github.com
+    IdentityFile ~/.ssh/id_ed25519_github
+EOF
 
-## 2. Harden SSH
-
-Edit `/etc/ssh/sshd_config`:
-```bash
-sudo nano /etc/ssh/sshd_config
-```
-
-Set these values:
-```
-PermitRootLogin no
-PasswordAuthentication no
-PubkeyAuthentication yes
-```
-
-Restart SSH:
-```bash
-sudo systemctl restart ssh
-```
-
-**Test** by opening a new terminal and SSH-ing as `nam` before closing your root session.
-
-## 3. Firewall (UFW)
-
-```bash
-sudo ufw allow OpenSSH
-sudo ufw enable
-sudo ufw status
-```
-
-If you need other ports later (e.g. for web dev):
-```bash
-sudo ufw allow 3000   # dev server
-sudo ufw allow 8080   # another dev server
-```
-
-## 4. Swap (optional but recommended for CX32)
-
-The CX32 has 8GB RAM which is usually enough, but swap prevents OOM kills during heavy builds:
-
-```bash
-sudo fallocate -l 4G /swapfile
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
-echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
-```
-
-## 5. Set Timezone + Locale
-
-```bash
-sudo timedatectl set-timezone UTC   # or your preferred timezone
-sudo locale-gen en_US.UTF-8
-sudo update-locale LANG=en_US.UTF-8
-```
-
-## 6. Git Config
-
-```bash
+# 3. Set git identity
 git config --global user.name "Your Name"
 git config --global user.email "your@email.com"
 git config --global init.defaultBranch main
+```
+
+## Firewall Ports
+
+Open additional ports when deploying webapps:
+
+```bash
+sudo ufw allow 80    # HTTP
+sudo ufw allow 443   # HTTPS
+sudo ufw status
 ```

@@ -4,68 +4,55 @@
 
 1. Go to https://console.hetzner.cloud/
 2. Sign up, verify email, add payment method
-3. Create a new project (e.g. "Dev Server")
+3. Create a new project
 
-## 2. Generate SSH Key (if you don't have one)
+## 2. Add SSH Key
 
-On your Mac:
+In Hetzner Console → Security → SSH Keys → Add SSH Key, paste your public key:
+
 ```bash
-ssh-keygen -t ed25519 -C "your@email.com"
-cat ~/.ssh/id_ed25519.pub
+# In WSL2
+cat ~/.ssh/id_ed25519_hetzner_personal.pub
 ```
-
-Add this public key in Hetzner Console → Security → SSH Keys.
 
 ## 3. Create Server
 
-**Via Console (web UI):**
 1. Go to your project → Servers → Add Server
 2. Settings:
-   - **Location**: Falkenstein (FSN1) or Nuremberg (NBG1) — cheapest EU locations
+   - **Location**: Falkenstein (FSN1) or Nuremberg (NBG1) — cheapest EU
    - **Image**: Ubuntu 24.04
-   - **Type**: Shared vCPU → CX32 (4 vCPU, 8GB RAM, 80GB SSD) — ~EUR 6.80/month
-   - **Networking**: Public IPv4 + IPv6
-   - **SSH Key**: Select the key you added
-   - **Name**: `dev-server` (or whatever you like)
+   - **Type**: CX32 (4 vCPU, 8GB RAM, 80GB SSD) — ~EUR 7/month
+   - **SSH Key**: select the key you added
 3. Click "Create & Buy Now"
 
-**Via CLI (hcloud):**
-```bash
-# Install hcloud CLI
-brew install hcloud
-
-# Configure
-hcloud context create dev
-# Enter your API token from Hetzner Console → Security → API Tokens
-
-# Create server
-hcloud server create \
-  --name dev-server \
-  --type cx32 \
-  --image ubuntu-24.04 \
-  --location fsn1 \
-  --ssh-key your-key-name
-```
-
-## 4. First SSH Connection
+## 4. First Connection + Setup
 
 ```bash
-# First time only — root, to run setup.sh (which creates user 'nam')
-ssh root@YOUR_SERVER_IP
+# Connect as root (first time only)
+ssh -i ~/.ssh/id_ed25519_hetzner_personal root@SERVER_IP
+
+# Run setup script
+curl -fsSL https://raw.githubusercontent.com/nam685/hetzner-dev-server/main/scripts/setup.sh | bash
 ```
 
-The IP is shown in the Hetzner Console or in the `hcloud server list` output.
+The script creates user `nam`, copies your SSH key, installs tools, disables root login.
 
-After running setup.sh, root SSH is disabled. Add to your `~/.ssh/config` for all future connections:
+**Before the root session ends**, test in a new terminal:
+```bash
+ssh -i ~/.ssh/id_ed25519_hetzner_personal nam@SERVER_IP
 ```
-Host dev
-    HostName YOUR_SERVER_IP
+
+## 5. SSH Config (WSL2)
+
+Add to `~/.ssh/config`:
+```
+Host hetzner
+    HostName SERVER_IP
     User nam
-    IdentityFile ~/.ssh/id_ed25519
-    ForwardAgent yes
+    IdentityFile ~/.ssh/id_ed25519_hetzner_personal
 ```
 
-Then just: `ssh dev`
+Then just: `ssh hetzner`
 
 ## Server Sizes Reference
 
@@ -75,24 +62,11 @@ Then just: `ssh dev`
 | CX32 | 4 | 8 GB | 80 GB | 6.80 |
 | CX42 | 8 | 16 GB | 160 GB | 16.40 |
 
-All plans include 20 TB monthly traffic and 1 IPv4 address (EU locations). US locations cost ~20% more.
-
-**Note**: Hetzner prices increase April 1, 2026 for new and existing products.
-
-Upgrading is easy: Hetzner Console → Server → Rescale. Takes a reboot (~1 min).
+All plans include 20 TB monthly traffic. Upgrading: Hetzner Console → Server → Rescale (takes a reboot).
 
 ## Cost Management
 
-- **Servers are billed hourly** even when stopped (disk is still reserved)
-- To stop billing: **delete** the server (you lose data — snapshot first!)
-- **Snapshots**: EUR 0.0108/GB/month — cheap way to preserve state
-- Create a snapshot before deleting: Hetzner Console → Server → Snapshots → Create
-- Recreate from snapshot anytime
-
-### Monthly Cost Estimate
-
-| Item | Cost |
-|------|------|
-| CX32 server | ~EUR 7 |
-| Claude Max subscription | $100-200 (see below) |
-| **Total** | **~$107-207/month** |
+- Servers are billed hourly even when stopped (disk is still reserved)
+- To stop billing: **delete** the server (snapshot first!)
+- **Snapshots**: EUR 0.0108/GB/month — cheap insurance
+- Create a snapshot: Hetzner Console → Server → Snapshots → Create

@@ -1,43 +1,25 @@
 # VS Code Remote SSH
 
-VS Code Remote SSH connects to the Hetzner server for file browsing, markdown preview, and diff viewing. All actual coding happens in the terminal (iTerm2 / Zellij + Claude Code).
+Connect VS Code to the Hetzner server for file browsing, markdown preview, and diff viewing.
 
 ## Setup
 
-### 1. Install Extension
+1. Install extension: **Remote - SSH** (by Microsoft)
+2. VS Code picks up `~/.ssh/config` automatically
+3. Ctrl+Shift+P → "Remote-SSH: Connect to Host..." → select `hetzner`
+4. First time: VS Code installs its server component on the remote (~1 min)
+5. Bottom-left corner shows "SSH: hetzner" when connected
 
-In VS Code: Extensions → search "Remote - SSH" → Install (by Microsoft)
+## What It's For
 
-### 2. Connect
-
-VS Code picks up `~/.ssh/config` automatically, so if you've configured the `dev` host:
-
-- Cmd+Shift+P → "Remote-SSH: Connect to Host..." → select `dev`
-- First time: VS Code installs its server component on the remote machine
-- Bottom-left corner shows "SSH: dev" when connected
-
-### 3. Open a Folder
-
-- File → Open Folder → select your project directory on the server
-
-## What VS Code is For (in this setup)
-
-| Use | Tool |
-|-----|------|
-| Writing code | Terminal → Claude Code |
-| Running commands | Terminal → `!command` or shell pane |
-| Browsing files | VS Code file explorer |
-| Viewing markdown | VS Code preview (Cmd+Shift+V) |
-| Reviewing diffs | VS Code git diff viewer / GitLens |
-| Port forwarding | VS Code (automatic) |
-
-## Useful Extensions (install on remote)
-
-- **GitLens** — git blame, file history, diff viewer
-- Language extensions for syntax highlighting
+| Task | Tool |
+|------|------|
+| Browsing/editing files | VS Code file explorer |
+| Viewing markdown | VS Code preview (Ctrl+Shift+V) |
+| Reviewing diffs | VS Code git diff viewer |
+| Port forwarding | VS Code (automatic — app on :3000 becomes localhost:3000) |
 
 ## Tips
 
-- **Port forwarding**: VS Code auto-forwards ports. Dev server on port 3000 becomes localhost:3000 on your Mac.
-- **Settings sync**: Use VS Code's built-in Settings Sync to keep config consistent across machines.
-- **Terminal in VS Code**: You can run `zellij a coding` in VS Code's terminal, but iTerm2 is better for the actual Claude sessions.
+- **Port forwarding**: automatic when a process binds a port — check the Ports panel
+- Install language extensions on the remote side when prompted
